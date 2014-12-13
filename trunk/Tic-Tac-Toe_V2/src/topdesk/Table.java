@@ -71,10 +71,10 @@ public class Table {
 		
 		/*Az értékelést maskolással kell csinálni, mert nincs benne a vizsgalatban az a lehetoseg
 		 * amikor valamilyen nyero allas mellett egy masik helyen is van a nyero typushoz tartozo 
-		 * mezõ.
-		 * Tesztelés: Done
+		 * mezõ. 
+		 * Tesztelés: Done 
 		 * Solution: A meglevõ megoldás helyett logikai és muvelettel kell maszkolni az aktuális 
-		 * tábla állást.
+		 * tábla állást.   
 		 */
 				
 		if (getCounter() % 2 != 0) {
