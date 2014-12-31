@@ -1,13 +1,12 @@
 package topdesk;
 
-
 import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Table {
 
 	private ArrayList<SmartField> table;
-	int counter = 0;
+	private int counter = 0;
 	private SmartField lastMove;
 	private final int[][] winnerStates = { { 1, 1, 1, 0, 0, 0, 0, 0, 0 },
 
@@ -36,81 +35,67 @@ public class Table {
 			SmartField smartfield = new SmartField(field, FieldStatus.EMPTY);
 			table.add(smartfield);
 
-		}counter=0;// Remove duplicates
-			// List table = new ArrayList(new HashSet(temptable));
+		}
+		counter = 0;// Remove duplicates
+		// List table = new ArrayList(new HashSet(temptable));
 	}
 
 	public boolean isGameOver() {
 		boolean result = false;
+		int xWin = 0;
+		int oWin = 0;
 		int actualStateX[] = new int[9];
-		int actualStateY[] = new int[9];
-		//------------------------------------------------------------------ 
-		for(SmartField smartfield: getTable()){
-			if (((smartfield.getFieldStatus().toString()).equals(FieldStatus.X.toString()))) {
+		int actualStateO[] = new int[9];
+		// ------------------------------------------------------------------
+		for (SmartField smartfield : getTable()) {
+			if (((smartfield.getFieldStatus().toString()).equals(FieldStatus.X
+					.toString()))) {
 				actualStateX[smartfield.getField().ordinal()] = 1;
 
 			}
-			if (((smartfield.getFieldStatus().toString()).equals(FieldStatus.O.toString()))) {
-				actualStateY[smartfield.getField().ordinal()] = 1;
+			if (((smartfield.getFieldStatus().toString()).equals(FieldStatus.O
+					.toString()))) {
+				actualStateO[smartfield.getField().ordinal()] = 1;
 
 			}
 		}
-		
-		
-		System.out.println("ActualX: ");
-		for(int tempindex=0; tempindex < actualStateX.length;tempindex++){
-			
-			System.out.print(actualStateX[tempindex]);
-		}
-		System.out.println("--------------------------------");
-		System.out.println("ActualY: ");
-		for(int tempindex=0; tempindex < actualStateY.length;tempindex++){
-			
-			System.out.print(actualStateY[tempindex]);
-		}
-		
-		/*Az értékelést maskolással kell csinálni, mert nincs benne a vizsgalatban az a lehetoseg
-		 * amikor valamilyen nyero allas mellett egy masik helyen is van a nyero typushoz tartozo 
-		 * mezõ. 
-		 * Tesztelés: Done 
-		 * Solution: A meglevõ megoldás helyett logikai és muvelettel kell maszkolni az aktuális 
-		 * tábla állást.   
-		 */
-				
+
+	
 		if (getCounter() % 2 != 0) {
 			// Check X
-			
 			for (int index = 0; index < winnerStates.length; index++) {
-				if ((winnerStates[index][0] == actualStateX[0])
-						&& (winnerStates[index][1] == actualStateX[1])
-						&& (winnerStates[index][2] == actualStateX[2])
-						&& (winnerStates[index][3] == actualStateX[3])
-						&& (winnerStates[index][4] == actualStateX[4])
-						&& (winnerStates[index][5] == actualStateX[5])
-						&& (winnerStates[index][6] == actualStateX[6])
-						&& (winnerStates[index][7] == actualStateX[7])
-						&& (winnerStates[index][8] == actualStateX[8])) {
+				for (int j = 0; j < 9; j++) {
+					if ((winnerStates[index][j] + actualStateX[j]) == 2) {
+						xWin++;
+					}
+
+				}
+				if (xWin == 3) {
 					result = true;
 					System.out.println(" X win");
+				} else {
+					xWin = 0;
 				}
 			}
+
 		} else if (getCounter() % 2 == 0) {
 			// Check Y
-			
+
 			for (int index = 0; index < winnerStates.length; index++) {
-				if ((winnerStates[index][0] == actualStateY[0])
-						&& (winnerStates[index][1] == actualStateY[1])
-						&& (winnerStates[index][2] == actualStateY[2])
-						&& (winnerStates[index][3] == actualStateY[3])
-						&& (winnerStates[index][4] == actualStateY[4])
-						&& (winnerStates[index][5] == actualStateY[5])
-						&& (winnerStates[index][6] == actualStateY[6])
-						&& (winnerStates[index][7] == actualStateY[7])
-						&& (winnerStates[index][8] == actualStateY[8])) {
+				for (int j = 0; j < 9; j++) {
+					if ((winnerStates[index][j] + actualStateO[j]) == 2) {
+						oWin++;
+					}
+
+				}
+				if (oWin == 3) {
 					result = true;
 					System.out.println(" O win");
+				} else {
+					oWin = 0;
 				}
 			}
+
 		}
 		if (getCounter() == 9) {
 			System.out.println("Tele a tabla!");
